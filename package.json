@@ -1,7 +1,7 @@
 {
   "name": "e-commerce",
   "version": "1.0.0",
-  "description": "",
+  "description": "E commerce Backend RESTful APIs",
   "main": "index.js",
   "scripts": {
     "start": "NODE_DEV=production node server",
@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^11.0.0",
     "express": "^4.17.2"
   },
   "devDependencies": {
