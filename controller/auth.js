@@ -4,7 +4,6 @@ const User = require("../models/User");
 // @routes POST /api/v0/auth/register
 // @access Public
 exports.register = async (req, res, next) => {
-  console.log("Request", req.body);
   const { name, email, password, role } = req.body;
 
   const user = await User.create({
