@@ -3,6 +3,9 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 
+// Routes Files
+const auth = require("./routes/auth");
+
 // Import connectDB
 const connectDB = require('./config/db');
 
@@ -10,6 +13,12 @@ dotenv.config({ path: "./config/config.env" })
 
 // Connect Database
 connectDB();
+
+// Body Parser
+app.use(express.json());
+
+// Mount Routes
+app.use("/api/v0/auth", auth);
 
 // intialize the port
 const port = process.env.PORT || 5000;
