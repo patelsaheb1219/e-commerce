@@ -1,6 +1,13 @@
+// Import Middleware
 const asyncHandler = require("../middleware/async");
+
+// Import Model
 const User = require("../models/User");
+
+// Import ErrorResponse class
 const ErrorResponse = require("../utils/errorResponse");
+
+const { removePasswordField } = require("../utils/utils");
 
 // @desc Register a new user
 // @routes POST /api/v0/auth/register
@@ -42,10 +49,3 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ success: true, user: removePasswordField(user) });
 });
-
-
-const removePasswordField = (user) => {
-  const userObj = user.toObject();
-  delete userObj['password'];
-  return userObj;
-}
