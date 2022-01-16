@@ -13,13 +13,14 @@ const { removePasswordField } = require("../utils/utils");
 // @routes POST /api/v0/auth/register
 // @access Public
 exports.register = asyncHandler(async (req, res, next) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, telephone } = req.body;
 
   const user = await User.create({
     name,
     email,
     password,
     role,
+    telephone
   });
 
   res.status(200).json({ success: true, data: removePasswordField(user) });
@@ -74,9 +75,9 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 
       res.status(200).json({ status: true, data: updatedUser });
     } else {
-      return next(`User ${req.params.id} is not authorized to update this bootcamp`, 401);
+      return next(new ErrorResponse(`User ${req.params.id} is not authorized to update`, 401));
     }
   } else {
-    return next(`Opps! User ID not found`, 404);
+    return next(new ErrorResponse(`Opps! User ID not found`, 404));
   }
 });

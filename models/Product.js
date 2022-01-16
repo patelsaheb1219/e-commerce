@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 const ProductSchema = new mongoose.Schema({
   name: {
+    type: String,
     required: true,
     trim: true,
     maxlength: [50, "Name cannot be more than 50 characters"]
@@ -40,4 +41,4 @@ const ProductSchema = new mongoose.Schema({
   toObject: { virtuals: true }
 });
 
-module.exports = mongoose.Model("Product", ProductSchema);
+module.exports = mongoose.model("Product", ProductSchema);
