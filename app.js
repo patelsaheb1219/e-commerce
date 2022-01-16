@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 // Routes Files
 const auth = require("./routes/auth");
 const product = require("./routes/product");
+const productCategory = require("./routes/productCategory");
 
 // Import connectDB
 const connectDB = require('./config/db');
@@ -21,6 +22,7 @@ app.use(express.json());
 // Mount Routes
 app.use("/api/v0/auth", auth);
 app.use("/api/v0/product", product);
+app.use("/api/v0/productCategory", productCategory);
 
 // intialize the port
 const port = process.env.PORT || 5000;
