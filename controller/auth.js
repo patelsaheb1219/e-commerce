@@ -54,23 +54,29 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @routes PUT /api/v0/auth/update
 // @access Private
 exports.updateUser = asyncHandler(async (req, res, next) => {
-  console.log(req.params.id);
   if (req.params.id) {
     let user = User.findById(req.params.id);
-    console.log(user);
-    const { name, email } = req.body;
-    const fieldToUpdate = {
-      name,
-      email,
-    };
+    if (user) {
+      const { name, email } = req.body;
+      const fieldToUpdate = {
+        name,
+        email,
+      };
 
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, fieldToUpdate, {
-      runValidator: true,
-      new: true,
-    });
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        fieldToUpdate,
+        {
+          runValidator: true,
+          new: true,
+        }
+      );
 
-    res.status(200).json({ status: true, data: updatedUser });
+      res.status(200).json({ status: true, data: updatedUser });
+    } else {
+      return next(`User ${req.params.id} is not authorized to update this bootcamp`, 401);
+    }
   } else {
-    return next(new ErrorResponse("Opps! Something went wrong", 400));
+    return next(`Opps! User ID not found`, 404);
   }
 });
