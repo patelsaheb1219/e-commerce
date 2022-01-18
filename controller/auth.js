@@ -95,3 +95,19 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Opps! User ID not found`, 404));
   }
 });
+
+
+exports.getUserFromToken = asyncHandler(async (req, res, next) => {
+  if (req.headers && req.headers.authorization) {
+    const auth = req.headers.authorization.split(' ')[1];
+    try {
+      const decodedUser = jwt.verify(auth, process.env.JWT_SECRET);
+      const user = await User.findOne({ _id: decodedUser.user_id });
+      res.status(200).json({ status: true, data: user });
+    } catch (e) {
+      return next(new ErrorResponse('User is Unauthorized', 401));
+    }
+  } else {
+    return next(new ErrorResponse(`Authorization Token not found`, 404));
+  }
+});
