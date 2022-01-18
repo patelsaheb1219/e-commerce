@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 // Import Middleware
 const asyncHandler = require("../middleware/async");
 
@@ -22,8 +24,14 @@ exports.register = asyncHandler(async (req, res, next) => {
     role,
     telephone
   });
-
-  res.status(200).json({ success: true, data: removePasswordField(user) });
+  const token = jwt.sign(
+    { user_id: user._id, email },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRE
+    }
+  )
+  res.status(200).json({ success: true, data: token });
 });
 
 // @desc Login a User
@@ -47,8 +55,14 @@ exports.login = asyncHandler(async (req, res, next) => {
   if (!isMatch) {
     return next(new ErrorResponse("Invalid credentials", 401));
   }
-
-  res.status(200).json({ success: true, data: removePasswordField(user) });
+  const token = jwt.sign(
+    { user_id: user._id, email },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRE
+    }
+  )
+  res.status(200).json({ success: true, data: token });
 });
 
 // @desc Update a User
