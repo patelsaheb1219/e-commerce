@@ -50,3 +50,24 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ status: true, data: product });
 });
+
+// @desc Update an existing product
+// @routes POST /api/v0/product/:id
+// @access Private
+exports.deleteProduct = asyncHandler(async (req, res, next) => {
+  let product = await Product.findById(req.params.id);
+
+  if (!product) {
+    return next(new ErrorResponse(`Product not found with the id ${req.params.id}`, 404));
+  }
+
+  // Check user is a product creator
+  if (req.user.id !== product.user.toString()) {
+    return next(new ErrorResponse(`User ${req.params.id} is not authorized to delete this product`, 401));
+  }
+
+  product.remove();
+  
+  res.status(200).json({ status: true, data: {} });
+
+});
