@@ -5,12 +5,12 @@ const {
   register,
   login,
   updateUser,
-  getUserFromToken
+  getUserFromToken,
 } = require("../controller/auth");
 
-router.get('/getme', getUserFromToken);
-router.post('/register', register);
-router.post('/login', login);
-router.put('/update/:id', updateUser);
+router.get("/getme", getUserFromToken);
+router.post("/register", register);
+router.post("/login", login);
+router.put("/update/:id", updateUser);
 
 module.exports = router;
