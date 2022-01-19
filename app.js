@@ -21,7 +21,7 @@ app.use(express.json());
 
 // Mount Routes
 app.use("/api/v0/auth", auth);
-app.use("/api/v0/product", product);
+app.use("/api/v0/products", product);
 app.use("/api/v0/productCategory", productCategory);
 
 // intialize the port

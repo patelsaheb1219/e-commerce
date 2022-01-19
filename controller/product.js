@@ -84,3 +84,15 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
   res.status(200).json({ status: true, data: {} });
 
 });
+
+// @desc Get Products by User Id
+// @routes GET /api/v0/product/:userId
+// @access Private
+exports.getProductsByUserId = asyncHandler(async (req, res, next) => {
+  if (req.params.userId) {
+    const products = await Product.find({ user: req.params.userId }).sort('-createdAt');
+    res.status(200).json({ success: true, count: products.length, data: products });
+  } else {
+    return next(new ErrorResponse(`User Id not found!`));
+  }
+});
