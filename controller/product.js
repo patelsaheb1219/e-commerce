@@ -21,25 +21,7 @@ exports.getAllProducts = asyncHandler(async (req, res, next) => {
 // @routes POST /api/v0/product/:userId
 // @access Private
 exports.createProduct = asyncHandler(async (req, res, next) => {
-  if (req.params.userId) {
-    let user = await User.findById(req.params.userId);
-    if (user) {
-      req.body.user = req.params.userId;
-      const { name, description, sku, price, photo, user } = req.body;
-      const product = await Product.create({
-        name,
-        description,
-        sku,
-        price,
-        photo,
-        user
-      });
-
-      res.status(200).json({ success: true, data: product });
-    } else {
-      return next(new ErrorResponse(`User ${req.params.userId} is not authorized to create this product`, 401));
-    }
-  } else {
-    return next(new ErrorResponse(`Opps! User ID not found`, 404));
-  }
+  req.body.user = req.user.id;
+  const product = await Product.create(req.body);
+  res.status(200).json({ success: true, data: product });
 });
