@@ -16,6 +16,19 @@ exports.getAllProducts = asyncHandler(async (req, res, next) => {
   res.status(200).json({ status: true, data: products });
 });
 
+// @desc Get product by id
+// @routes GET /api/v0/product/:id
+// @access Public
+exports.getProductById = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    return next(new ErrorResponse(`Product not found with the id ${req.params.id}`, 404));
+  }
+
+  res.status(200).json({ status: true, data: product });
+});
+
 
 // @desc Create a new product
 // @routes POST /api/v0/product/:id
