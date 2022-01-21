@@ -46,7 +46,7 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 
 /**
   @desc Update an existing product
-  @routes POST /api/v0/product/:id
+  @routes PUT /api/v0/product/:id
   @access Private
 */
 exports.updateProduct = asyncHandler(async (req, res, next) => {
@@ -78,8 +78,8 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 });
 
 /**
-  // @desc Update an existing product
-  // @routes POST /api/v0/product/:id
+  // @desc Delete an existing product
+  // @routes DELETE /api/v0/product/:id
   // @access Private
 */
 exports.deleteProduct = asyncHandler(async (req, res, next) => {
@@ -108,12 +108,13 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
 
 /**
   @desc Get Products by User Id
-  @routes GET /api/v0/product/:userId
+  @routes GET /api/v0/product/user
   @access Private
 */
 exports.getProductsByUserId = asyncHandler(async (req, res, next) => {
-  if (req.params.userId) {
-    const products = await Product.find({ user: req.params.userId }).sort(
+  console.log("req.user.id", req.user.id);
+  if (req.user.id) {
+    const products = await Product.find({ user: req.user.id }).sort(
       "-createdAt"
     );
     res
