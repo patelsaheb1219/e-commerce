@@ -13,18 +13,17 @@ const ErrorResponse = require("../utils/errorResponse");
  * @access Private
  */
 exports.getCartItems = asyncHandler(async (req, res, next) => {
-  if (req.user.id) {
-    const cartItems = await Cart.find({
-      user: req.user.id,
-      status: "added",
-    }).sort("-createdAt");
-
-    res
-      .status(200)
-      .json({ status: true, count: cartItems.length, data: cartItems });
-  } else {
+  if (!req.user.id) {
     return next(new ErrorResponse(`User not found or not logged In`, 404));
   }
+  const cartItems = await Cart.find({
+    user: req.user.id,
+    status: "added",
+  }).sort("-createdAt");
+
+  res
+    .status(200)
+    .json({ status: true, count: cartItems.length, data: cartItems });
 });
 
 /**
@@ -33,7 +32,9 @@ exports.getCartItems = asyncHandler(async (req, res, next) => {
  * @access Private
  */
 exports.getSavedCartItems = asyncHandler(async (req, res, next) => {
-  if (req.user.id) {
+  if (!req.user.id) {
+    return next(new ErrorResponse(`User not found or not logged In`, 404));
+  }
     const cartItems = await Cart.find({
       user: req.user.id,
       status: "saved",
@@ -41,9 +42,6 @@ exports.getSavedCartItems = asyncHandler(async (req, res, next) => {
     res
       .status(200)
       .json({ status: true, count: cartItems.length, data: cartItems });
-  } else {
-    return next(new ErrorResponse(`User not found or not logged In`, 404));
-  }
 });
 
 /**
@@ -52,15 +50,15 @@ exports.getSavedCartItems = asyncHandler(async (req, res, next) => {
  * @access Private
  */
 exports.getCartItems = asyncHandler(async (req, res, next) => {
-  if (req.user.id) {
-    const cartItems = await Cart.find({
-      user: req.user.id,
-      status: "added",
-    }).sort("-createdAt");
-    res.status(200).json({ status: true, data: cartItems });
-  } else {
+  if (!req.user.id) {
     return next(new ErrorResponse(`User not found or not logged In`, 404));
   }
+
+  const cartItems = await Cart.find({
+    user: req.user.id,
+    status: "added",
+  }).sort("-createdAt");
+  res.status(200).json({ status: true, data: cartItems });
 });
 
 /**
@@ -69,6 +67,10 @@ exports.getCartItems = asyncHandler(async (req, res, next) => {
   @access Private
  */
 exports.addItemToCart = asyncHandler(async (req, res, next) => {
+  if (!req.user.id) {
+    return next(new ErrorResponse(`User not found or not logged In`, 404));
+  }
+  
   req.body.user = req.user.id;
   const cart = await Cart.create(req.body);
   res.status(200).json({ status: true, data: cart });
