@@ -8,6 +8,7 @@ const auth = require("./routes/auth");
 const product = require("./routes/product");
 const productCategory = require("./routes/productCategory");
 const cart = require("./routes/cart");
+const order = require("./routes/order");
 
 // Import connectDB
 const connectDB = require("./config/db");
@@ -25,6 +26,7 @@ app.use("/api/v0/auth", auth);
 app.use("/api/v0/products", product);
 app.use("/api/v0/productCategory", productCategory);
 app.use("/api/v0/cart", cart);
+app.use("/api/v0/orders", order);
 
 // intialize the port
 const port = process.env.PORT || 5000;
