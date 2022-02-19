@@ -112,7 +112,6 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
   @access Private
 */
 exports.getProductsByUserId = asyncHandler(async (req, res, next) => {
-  console.log("req.user.id", req.user.id);
   if (req.user.id) {
     const products = await Product.find({ user: req.user.id }).sort(
       "-createdAt"
